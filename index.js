@@ -1,5 +1,4 @@
 // A Simple Express JS TODO Application
-// A PR Raised By Arpit Madaan
 
 // import all dependencies
 import express from "express";
