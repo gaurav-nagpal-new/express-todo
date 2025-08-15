@@ -1,10 +1,9 @@
 // Controller to create new TODOs in the DB
 
-import todosDB from "../database/todo.js";
+// import todosDB from "../database/todo.js";
+import todo from "../models/todo.js";
 
-export default (req, res) => {
-  // TODO: implement a mechanism to keep ID field unique. Calculate in the code itself and do not send in the request payload.
-
+export default async (req, res) => {
   // read the request body
   if (
     req.body == undefined ||
@@ -21,11 +20,13 @@ export default (req, res) => {
   }
 
   // we are receiving the array of TODOs, so append all of it to the existing array
-  todosDB.push(...req.body.data); // using spread operator. Read also rest operator
+  // todosDB.push(...req.body.data); // using spread operator. Read also rest operator
+
+  const savedTodos = await todo.insertMany(req.body.data);
 
   res.status(201).json({
     success: true,
     message: "resource created sucessfully",
-    data: todosDB, // send the latest data
+    data: savedTodos, // send the latest data
   });
 };

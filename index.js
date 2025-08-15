@@ -3,8 +3,10 @@
 // import all dependencies
 import express from "express";
 import todos_router from "./routes/todo.js";
+import connectToMongoDB from "./database/mongo.js";
+import dotenv from "dotenv";
 
-// TODO: Add dotenv dependency and read APP_PORT from .env
+dotenv.config();
 
 // Initialize express app
 
@@ -14,14 +16,16 @@ const app = express();
 
 app.use(express.json());
 
+
+// connect to mongoDB
+await connectToMongoDB();
+
 // use the todos router
 app.use("/api", todos_router);
 
-const PORT = 3000; // TODO: read from env, if not present provide a fallback value
+const PORT = process.env.APP_PORT ?? 3000;
 
 // start the server on the port
 app.listen(PORT, () => {
-  console.log("Server started on the PORT 3000"); // TODO: Replace PORT with the PORT value with template literals
+  console.log(`Server started on the PORT ${PORT}`);
 });
-
-// TODO: add start script in the package.json and run the index.js with npm start
